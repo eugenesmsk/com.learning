@@ -2,6 +2,7 @@ package com.mytasks;
 /*
 LinkedHashMap для строк
  */
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class MyLinkedHashMap<T> {
@@ -43,7 +44,6 @@ public class MyLinkedHashMap<T> {
         Key(T key) {
             this.key = key;
         }
-
         T getKey() {
             return key;
         }
@@ -57,7 +57,10 @@ public class MyLinkedHashMap<T> {
         Key objKey = new Key(key);
         int hashCode = objKey.createHash(key);
         Element element = new Element(hashCode, key, value);
-
+        int bucket = calculateBucket(hashCode, table.length);
+        if(isEmptyBucket(bucket)) {
+            //создать ArrayList
+        }
     }
 
     private int calculateBucket(int hashCode, int capacity) {
