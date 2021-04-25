@@ -9,14 +9,14 @@ public class MyLinkedHashMap<T> {
     private Element[] table;
 
     MyLinkedHashMap() {     //Емкость по умолчанию
-        this.header = new Element(-1, null, null, null, null, null);
+        this.header = new Element(-1, null, null);
         this.header.after = this.header;
         this.header.before = this.header;
         table = new Element[16];
     }
 
     MyLinkedHashMap(int capacity){      //Пользовательская емкость
-        this.header = new Element(-1, null, null, null, null, null);
+        this.header = new Element(-1, null, null);
         this.header.after = this.header;
         this.header.before = this.header;
         table = new Element[capacity];
@@ -24,13 +24,13 @@ public class MyLinkedHashMap<T> {
 
     private class Element<T> {
         int hash;
-        Key key;
-        String value;
+        T key;
+        T value;
         Element next;
         Element after;
         Element before;
 
-        Element(int hash, Key key, String value, Element next, Element after, Element before) {
+        Element(int hash, T key, T value) {
             this.hash = hash;
             this.key = key;
             this.value = value;
@@ -56,7 +56,8 @@ public class MyLinkedHashMap<T> {
     void put(T key, T value) {
         Key objKey = new Key(key);
         int hashCode = objKey.createHash(key);
-        //Element element = new Element(hashCode, key, value, );
+
+        Element element = new Element(hashCode, key, value);
 
     }
 
