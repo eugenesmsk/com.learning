@@ -2,7 +2,6 @@ package com.mytasks;
 /*
 LinkedHashMap для строк
  */
-
 import java.util.LinkedHashMap;
 
 public class MyLinkedHashMap<T> {
@@ -36,10 +35,8 @@ public class MyLinkedHashMap<T> {
             this.key = key;
             this.value = value;
         }
-
-
-
     }
+
     class Key {
         private T key;
         private int hashCode;
@@ -56,11 +53,22 @@ public class MyLinkedHashMap<T> {
         }
     }
 
-    void put(T key, T data) {
+    void put(T key, T value) {
         Key objKey = new Key(key);
         int hashCode = objKey.createHash(key);
-        //Element element = new Element();
+        //Element element = new Element(hashCode, key, value, );
+
     }
+
+    private int calculateBucket(int hashCode, int capacity) {
+        return (hashCode & (capacity - 1));
+    }
+
+
+    private boolean isEmptyBucket(int bucket) {
+        return table[bucket] == null;
+    }
+
 }
 
 class R {
@@ -68,7 +76,6 @@ class R {
         MyLinkedHashMap map = new MyLinkedHashMap(11);
         LinkedHashMap map1 = new LinkedHashMap();
         //map.put("idx", "two");
-
        // map1.put()
     }
 }
