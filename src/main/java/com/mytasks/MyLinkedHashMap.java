@@ -56,7 +56,6 @@ public class MyLinkedHashMap<T> {
     void put(T key, T value) {
         Key objKey = new Key(key);
         int hashCode = objKey.createHash(key);
-
         Element element = new Element(hashCode, key, value);
 
     }
