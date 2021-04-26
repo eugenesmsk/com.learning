@@ -38,25 +38,12 @@ public class MyLinkedHashMap<T> {
         }
     }
 
-    class Key {
-        private T key;
-        private int hashCode;
-        Key(T key) {
-            this.key = key;
-        }
-        T getKey() {
-            return key;
-        }
-
-        int createHash(T key) {     //Взял подсчет хэша по умолчанию
-            return key.hashCode();
-        }
-    }
 
     void put(T key, T value) {
-        Key objKey = new Key(key);
-        int hashCode = objKey.createHash(key);
+        int hashCode = key.hashCode();
         Element element = new Element(hashCode, key, value);
+
+
         int bucket = calculateBucket(hashCode, table.length);
         if(isEmptyBucket(bucket)) {
             //создать ArrayList
