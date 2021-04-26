@@ -7,20 +7,20 @@ import java.util.LinkedHashMap;
 
 public class MyLinkedHashMap<T> {
     private Element header;
-    private Element[] table;
+    private ArrayList[] table;
 
     MyLinkedHashMap() {     //Емкость по умолчанию
         this.header = new Element(-1, null, null);
         this.header.after = this.header;
         this.header.before = this.header;
-        table = new Element[16];
+        table = new ArrayList[16];
     }
 
     MyLinkedHashMap(int capacity){      //Пользовательская емкость
         this.header = new Element(-1, null, null);
         this.header.after = this.header;
         this.header.before = this.header;
-        table = new Element[capacity];
+        table = new ArrayList[capacity];
     }
 
     private class Element<T> {
@@ -40,20 +40,32 @@ public class MyLinkedHashMap<T> {
 
 
     void put(T key, T value) {
-        int hashCode = key.hashCode();
+        int hashCode = hash(key.hashCode());
         Element element = new Element(hashCode, key, value);
+        int bucketNum = calculateBucket(hashCode, table.length);
+        if(isEmptyBucket(bucketNum)) {
+            table[bucketNum] = new ArrayList<Element>();
+            table[bucketNum].add(element);
+        }
+        else {
+            table[bucketNum].add(element);
+            System.out.println(table[bucketNum].get(table[bucketNum].size() - 1));  //Не получается достаьь из массива объект (хочу устаовить next)
 
-
-        int bucket = calculateBucket(hashCode, table.length);
-        if(isEmptyBucket(bucket)) {
-            //создать ArrayList
         }
     }
 
-    private int calculateBucket(int hashCode, int capacity) {
-        return (hashCode & (capacity - 1));
+    void setNext(int bucketNum) {
+        table[bucketNum].get(table[bucketNum].size() - 1);
     }
 
+   private int hash(int h) {
+        h ^= (h >>> 20) ^ (h >>> 12);
+        return h ^ (h >>> 7) ^ (h >>> 4);
+    }
+
+   private int calculateBucket(int hashCode, int capacity) {
+        return (hashCode & (capacity - 1));
+    }
 
     private boolean isEmptyBucket(int bucket) {
         return table[bucket] == null;
@@ -63,9 +75,8 @@ public class MyLinkedHashMap<T> {
 
 class R {
     public static void main(String[] args) {
-        MyLinkedHashMap map = new MyLinkedHashMap(11);
-        LinkedHashMap map1 = new LinkedHashMap();
-        //map.put("idx", "two");
-       // map1.put()
+        MyLinkedHashMap map = new MyLinkedHashMap();
+        map.put("idx", "two");
+        map.put("0", "zero");
     }
 }
