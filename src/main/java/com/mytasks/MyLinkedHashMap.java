@@ -7,7 +7,8 @@ import java.util.LinkedHashMap;
 
 public class MyLinkedHashMap<T> {
     private Element header;
-    private ArrayList[] table;
+    private ArrayList<Element>[] table;
+    private int size = 0;
 
     MyLinkedHashMap() {     //Емкость по умолчанию
         this.header = new Element(-1, null, null);
@@ -38,25 +39,42 @@ public class MyLinkedHashMap<T> {
         }
     }
 
-
     void put(T key, T value) {
         int hashCode = hash(key.hashCode());
         Element element = new Element(hashCode, key, value);
         int bucketNum = calculateBucket(hashCode, table.length);
         if(isEmptyBucket(bucketNum)) {
-            table[bucketNum] = new ArrayList<Element>();
+            table[bucketNum] = new ArrayList<>();
             table[bucketNum].add(element);
+            ++size;
+            //Проверяем на первый элемент, чтобы добавить ссылки в header
+            if(size == 1) {
+                header.after = element;
+                header.before = element;
+                element.before = header;
+                element.after = header;
+            }
         }
         else {
             table[bucketNum].add(element);
-            System.out.println(table[bucketNum].get(table[bucketNum].size() - 1));  //Не получается достаьь из массива объект (хочу устаовить next)
+            ++size;
+            setNext(bucketNum, element);
 
+            element.before = header.before;
+            element.after = header;
+            header.before = element;
         }
     }
 
-    void setNext(int bucketNum) {
-        table[bucketNum].get(table[bucketNum].size() - 1);
+    int size() {
+        return size;
     }
+
+    private void setNext(int bucketNum, Element element) {      //Устанавливаем поле прыдыдущего элемента next на вновь добавленный
+        table[bucketNum].get(table[bucketNum].size() - 1).next = element;
+    }
+
+
 
    private int hash(int h) {
         h ^= (h >>> 20) ^ (h >>> 12);
@@ -78,5 +96,6 @@ class R {
         MyLinkedHashMap map = new MyLinkedHashMap();
         map.put("idx", "two");
         map.put("0", "zero");
+        System.out.println(map.size());
     }
 }
