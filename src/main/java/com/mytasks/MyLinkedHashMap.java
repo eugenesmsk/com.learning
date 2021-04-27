@@ -59,7 +59,7 @@ public class MyLinkedHashMap<T> {
             table[bucketNum].add(element);
             ++size;
             setNext(bucketNum, element);
-
+            //Дописать изменение поля after у предыдущего объекта после добавления нового
             element.before = header.before;
             element.after = header;
             header.before = element;
