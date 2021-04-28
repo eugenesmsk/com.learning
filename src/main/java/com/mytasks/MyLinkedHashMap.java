@@ -1,7 +1,17 @@
 package com.mytasks;
+
 /*
-LinkedHashMap для строк
+LinkedHashMap. В оригинальной версии добавление
+в bucket осуществляется в начало списка. Тут реализовано добавление в конец,
+но суть работы такая же. Сложность добавления в начало hashtable О(1), такая же в ArrayList,
+при добавлении в конец.
+
+При создании объекта MyLikedHashMap, создается header. При вызове push() создается объект Element.
+Header.before всегда указывает на последний добавленный элемент. Последний Element.after всегда указывает
+на header. Поле next указывает на следующий объект в bucket.
  */
+//Не проверял на null
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
@@ -53,7 +63,6 @@ public class MyLinkedHashMap<T> {
                 header.before = element;
                 element.before = header;
                 element.after = header;
-
             }
             else {
                 header.before.after = element;
@@ -75,6 +84,19 @@ public class MyLinkedHashMap<T> {
         }
     }
 
+      Object get(T key) {       //Вот тут мне не понятно что за Object.
+        int hashCode = hash(key.hashCode());
+        int bucketNum = calculateBucket(hashCode, table.length);
+        if(!isEmptyBucket(bucketNum)) {
+            for(Element e:table[bucketNum]) {
+                if(e.key.equals(key)) {
+                    return e.value;
+                }
+            }
+        }
+          return null;
+      }
+
     int size() {
         return size;
     }
@@ -82,7 +104,6 @@ public class MyLinkedHashMap<T> {
     private void setNext(int bucketNum, Element element) {      //Устанавливаем поле прыдыдущего элемента next на вновь добавленный
         table[bucketNum].get(table[bucketNum].size() - 2).next = element;
     }
-
 
 
    private int hash(int h) {
@@ -106,6 +127,9 @@ class R {
         map.put(1, "obj1");
         map.put(15, "obj15");
         map.put(38, "obj38");
+        map.put(45, "obj8");
         System.out.println(map.size());
+        System.out.println(map.get(0));
+
     }
 }
