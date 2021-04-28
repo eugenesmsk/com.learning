@@ -53,6 +53,13 @@ public class MyLinkedHashMap<T> {
                 header.before = element;
                 element.before = header;
                 element.after = header;
+
+            }
+            else {
+                header.before.after = element;
+                element.before = header.before;
+                element.after = header;
+                header.before = element;
             }
         }
         else {
@@ -63,6 +70,8 @@ public class MyLinkedHashMap<T> {
             element.before = header.before;
             element.after = header;
             header.before = element;
+            table[bucketNum].get(table[bucketNum].size() - 2).after = element;
+
         }
     }
 
@@ -71,7 +80,7 @@ public class MyLinkedHashMap<T> {
     }
 
     private void setNext(int bucketNum, Element element) {      //Устанавливаем поле прыдыдущего элемента next на вновь добавленный
-        table[bucketNum].get(table[bucketNum].size() - 1).next = element;
+        table[bucketNum].get(table[bucketNum].size() - 2).next = element;
     }
 
 
@@ -94,8 +103,9 @@ public class MyLinkedHashMap<T> {
 class R {
     public static void main(String[] args) {
         MyLinkedHashMap map = new MyLinkedHashMap();
-        map.put("idx", "two");
-        map.put("0", "zero");
+        map.put(1, "obj1");
+        map.put(15, "obj15");
+        map.put(38, "obj38");
         System.out.println(map.size());
     }
 }
