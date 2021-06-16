@@ -1,0 +1,21 @@
+//https://leetcode.com/problems/employee-importance/
+
+class EmpImportance {
+    Map<Integer, Employee> map = new HashMap<>();
+    public int getImportance(List<Employee> employees, int id) {
+        for(Employee emp:employees) {
+            map.put(emp.id, emp);
+        }
+        return calc(id);
+    }
+    
+    public int calc(int eid) {
+        Employee empl = map.get(eid);
+        int result = empl.importance;
+        for(Integer subId:empl.subordinates) {
+            result += calc(subId);
+        }
+        return result;
+        
+    }
+}
