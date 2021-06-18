@@ -24,7 +24,7 @@ class TwoSumRecursion {
         for(int i = 0; i < numList.size(); i++) {
             firstNum = numList.get(i);
             for(int j = numList.size() - 1; j >= 0; j--) {
-                if(i == j) continue;
+                if(i == j) break;
                 secondNum = numList.get(j);
                 if(firstNum + secondNum == k) {
                     return true;
